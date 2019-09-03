@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
+using Skoruba.IdentityServer4.Admin.Configuration.Constants;
 using Skoruba.IdentityServer4.Admin.Configuration.Interfaces;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.DbContexts;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.Entities.Identity;
@@ -14,6 +15,8 @@ namespace Skoruba.IdentityServer4.Admin
 {
     public class Startup
     {
+
+
         public Startup(IHostingEnvironment env)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -22,10 +25,11 @@ namespace Skoruba.IdentityServer4.Admin
                     .SetBasePath(env.ContentRootPath)
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                    .AddEnvironmentVariables();
+                    .AddEnvironmentVariables(ConfigurationConsts.EnvVarsPrefix);
 
             if (env.IsDevelopment())
             {
+                DotNetEnv.Env.Load();
                 builder.AddUserSecrets<Startup>();
             }
 
