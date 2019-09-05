@@ -25,10 +25,11 @@ namespace Skoruba.IdentityServer4.Admin.Api
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables(ConfigurationConsts.EnvVarsPrefix);
 
             if (env.IsDevelopment())
             {
+                DotNetEnv.Env.Load();
                 builder.AddUserSecrets<Startup>();
             }
 
